@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.web.mapper.UserInfoMapper">
+    <insert id="addUserInfo">
+        insert into easylive.user_info(user_id, nick_name, email, password,  join_time, status, total_coin_count, current_coin_count, theme) values(#{userId}, #{nickName}, #{email}, #{password}, #{joinTime}, #{status}, #{totalCoinCount}, #{currentCoinCount}, #{theme})
+    </insert>
+</mapper>

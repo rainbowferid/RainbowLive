@@ -1,8 +1,8 @@
-package org.example.mapper;
+package org.web.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
-import org.example.entity.UserInfo;
+import org.common.entity.UserInfo;
 
 @Mapper
 public interface TestMapper {

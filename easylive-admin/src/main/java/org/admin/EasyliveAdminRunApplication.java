@@ -1,11 +1,11 @@
-package org.example;
+package org.admin;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class EasyliveWebRunApplication {
+public class EasyliveAdminRunApplication {
     public static void main(String[] args) {
-        SpringApplication.run(EasyliveWebRunApplication.class, args);
+        SpringApplication.run(EasyliveAdminRunApplication.class, args);
     }
 }

@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 7071
 
 spring:
   datasource:
@@ -18,3 +18,9 @@ mybatis:
   mapper-locations: classpath:mapper/*.xml
   configuration:
     map-underscore-to-camel-case: true
+
+openProject:
+  isOpen: true
+  cmd: cmd   /c   start
+  web:
+    openUrl: http://localhost:${server.port}/#
