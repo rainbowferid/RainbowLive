@@ -2,6 +2,8 @@ package org.common.component;
 
 import jakarta.annotation.Resource;
 import org.common.constant.Constants;
+import org.common.entity.dto.TokenUserInfoDTO;
+import org.common.entity.po.UserInfo;
 import org.common.utils.RedisUtils;
 import org.springframework.stereotype.Component;
 
@@ -31,15 +33,31 @@ public class RedisComponent {
         }
         else
         {
-
             return "failed";
         }
-
     }
+
 
     public void cleanCheckCode(String checkCodeKey) {
 
         redisUtils.delete(Constants.REDIS_KEY_CHECK_CODE + checkCodeKey);
 
+    }
+
+    public void setTokenUserInfo(TokenUserInfoDTO tokenUserInfoDTO) {
+
+        String token = UUID.randomUUID().toString();
+        tokenUserInfoDTO.setToken(token);//这里更改之后，传入的变量也会更改
+        redisUtils.setex(Constants.REDIS_KEY_TOKEN_WEB + tokenUserInfoDTO.getToken(), tokenUserInfoDTO, Constants.REDIS_EXPIRE_TIME_DAY*7);
+
+    }
+
+    public void cleanToken(String token) {
+        redisUtils.delete(Constants.REDIS_KEY_TOKEN_WEB + token);
+    }
+
+    public TokenUserInfoDTO getTokenUserInfo(String token) {
+        Object tokenUserInfoDTO = redisUtils.get(Constants.REDIS_KEY_TOKEN_WEB + token);
+        return (TokenUserInfoDTO) tokenUserInfoDTO;
     }
 }

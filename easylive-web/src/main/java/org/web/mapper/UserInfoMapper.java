@@ -2,7 +2,7 @@ package org.web.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
-import org.common.entity.UserInfo;
+import org.common.entity.po.UserInfo;
 
 @Mapper
 public interface UserInfoMapper {
@@ -15,4 +15,6 @@ public interface UserInfoMapper {
 
 
     void addUserInfo(UserInfo userInfo);
+
+    void updateUserInfo(UserInfo userInfo);
 }
