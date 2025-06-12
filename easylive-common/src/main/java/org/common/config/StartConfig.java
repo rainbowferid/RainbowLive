@@ -5,7 +5,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class StartConfiguration implements CommandLineRunner {
+public class StartConfig implements CommandLineRunner {
     @Value("${openProject.isOpen}")
     private boolean isOpen;
 

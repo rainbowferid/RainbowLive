@@ -13,8 +13,11 @@ import org.common.utils.StringTools;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
 import org.web.mapper.UserInfoMapper;
 import org.web.service.UserInfoService;
+
+import java.beans.Encoder;
 
 @Service
 public class UserInfoServiceImpl implements UserInfoService {
@@ -38,7 +41,9 @@ public class UserInfoServiceImpl implements UserInfoService {
         UserInfo userInfo = new UserInfo();
         userInfo.setNickName(nickName);
         userInfo.setEmail(email);
-        userInfo.setPassword(registerPassword);
+
+        userInfo.setPassword(DigestUtils.md5DigestAsHex(registerPassword.getBytes()));
+//        userInfo.setPassword(registerPassword);
 
         userInfo.setStatus(UserStatusEnum.ENABLE.getStatus());
         userInfo.setSex(UserSexEnum.SECRECT.getSex());
@@ -54,6 +59,7 @@ public class UserInfoServiceImpl implements UserInfoService {
             try {
                 userInfo.setUserId(StringTools.getRandomNumber(Constants.ID_LENGTH));
                 userInfoMapper.addUserInfo(userInfo);
+                break;
             }
             catch (DuplicateKeyException e){
                 retries++;
@@ -62,7 +68,6 @@ public class UserInfoServiceImpl implements UserInfoService {
                     throw new RegisterFailedException("注册失败,请稍后再试");
                 }
             }
-
         }
 
     }

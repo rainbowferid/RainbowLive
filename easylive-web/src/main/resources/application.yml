@@ -24,3 +24,12 @@ openProject:
   cmd: cmd   /c   start
   web:
     openUrl: http://localhost:${server.port}/#
+
+project:
+  folder: c:/computer science/live_info/
+log:
+  root:
+    level: debug
+admin:
+  account: root
+  password: 12345

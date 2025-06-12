@@ -8,7 +8,7 @@ import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.serializer.RedisSerializer;
 
 @Configuration
-public class RedisConfiguration<V> {
+public class RedisConfig<V> {
     @Bean("redisTemplate")
     public RedisTemplate<String, V> redisTemplate(RedisConnectionFactory factory) {
         RedisTemplate<String, V> template = new RedisTemplate<>();

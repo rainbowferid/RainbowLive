@@ -1,6 +1,7 @@
-package org.web.controller;
+package org.admin.controller;
 
 import com.wf.captcha.ArithmeticCaptcha;
+import io.netty.util.internal.StringUtil;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -9,18 +10,19 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import org.common.component.RedisComponent;
+import org.common.config.AppConfig;
 import org.common.constant.Constants;
 import org.common.entity.dto.TokenUserInfoDTO;
+import org.common.exception.BaseException;
 import org.common.exception.RegisterFailedException;
 import org.common.result.Result;
 import org.common.utils.BaseUtils;
+import org.common.utils.StringTools;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.web.service.UserInfoService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,8 +33,9 @@ import java.util.Map;
 public class AccountController extends ABaseController{
     @Autowired
     RedisComponent redisComponent;
+
     @Autowired
-    UserInfoService userInfoService;
+    AppConfig appConfig;
     @RequestMapping("/checkCode")
     public Result<Map<String, String>> checkCode()
     {
@@ -46,35 +49,10 @@ public class AccountController extends ABaseController{
         return Result.success(map);
     }
 
-    @PostMapping("/register")
-    public Result register(@NotEmpty @Email @Size(max = 80) String email,
-                                   @NotEmpty @Size(max = 20) String nickName,
-                                   @NotEmpty String checkCodeKey,
-                                   @NotEmpty String checkCode,
-                                   @NotEmpty @Pattern(regexp = Constants.REGISTER_PASSWORD_REGEX)  String registerPassword)
-    {
-
-        String checkCodeValue = redisComponent.getCheckCode(checkCodeKey);
-
-        try{
-            if(!checkCodeValue.equalsIgnoreCase(checkCode)) {
-                throw new RegisterFailedException("验证码错误");
-            }
-
-            userInfoService.register(email,nickName,registerPassword);
-            return Result.success();
-        }
-        finally {
-            redisComponent.cleanCheckCode(checkCodeKey);
-        }
-
-    }
-
     @PostMapping("/login")
-    public Result login(@NotEmpty @Email @Size(max = 80) String email,
+    public Result login(@NotEmpty @Size(max = 80) String account,
                         @NotEmpty String checkCodeKey,
                         @NotEmpty String checkCode,
-//                        @NotEmpty @Pattern(regexp = Constants.REGISTER_PASSWORD_REGEX)  String password,
                         @NotEmpty String password,
                         HttpServletResponse response,
                         HttpServletRequest request
@@ -86,42 +64,26 @@ public class AccountController extends ABaseController{
             if(!checkCodeValue.equalsIgnoreCase(checkCode)) {
                 throw new RegisterFailedException("验证码错误");
             }
-            String ip = BaseUtils.getIpAddr();//或者在参数中添加request，通过request.getRemoteAddr()获取
-            TokenUserInfoDTO tokenUserInfoDTO = userInfoService.login(email, password, ip);
-            BaseUtils.saveTokenToCookie(tokenUserInfoDTO.getToken(),response);
-
-            return Result.success(tokenUserInfoDTO);
+            if(!account.equals(appConfig.getAdminAccount())||!password.equals(StringTools.encodeByMd5(appConfig.getAdminPassword())))
+            {
+                throw new BaseException("用户名或密码错误");
+            }
+            String token = redisComponent.saveToken4Admin(account);
+            saveTokenToCookie(token,response);
+            return Result.success(account);
         }
         finally {
             redisComponent.cleanCheckCode(checkCodeKey);
             Cookie[] cookies = request.getCookies();
             for (Cookie cookie : cookies) {
-                if(cookie.getName().equals(Constants.TOKEN_WEB))
+                if(cookie.getName().equals(Constants.TOKEN_ADMIN))
                 {
-                    redisComponent.cleanToken(cookie.getValue());
+                    redisComponent.cleanAdminToken(cookie.getValue());
                     break;
                 }
             }
         }
-
     }
-    @RequestMapping("/autoLogin")
-    public Result autoLogin(HttpServletRequest request,HttpServletResponse response) {
-        TokenUserInfoDTO tokenUserInfoDTO = redisComponent.getTokenUserInfo(request.getHeader(Constants.TOKEN_WEB));
-        if (tokenUserInfoDTO == null)
-        {
-            return Result.error("请先登录");
-        }
-        String token = tokenUserInfoDTO.getToken();
-        if (tokenUserInfoDTO.getExpiredAt() - System.currentTimeMillis()<=Constants.REDIS_EXPIRE_TIME_DAY)
-        {
-            redisComponent.setTokenUserInfo(tokenUserInfoDTO);//刷新token有效期，重新生成token
-            BaseUtils.saveTokenToCookie(tokenUserInfoDTO.getToken(),response);//将生成的token传入cookie
-        }
-        BaseUtils.saveTokenToCookie(tokenUserInfoDTO.getToken(),response);//token不变,重置cookie时间
-        return Result.success(tokenUserInfoDTO);
-    }
-
 
     @RequestMapping("/logout")
     public Result logout(HttpServletRequest request,HttpServletResponse response)

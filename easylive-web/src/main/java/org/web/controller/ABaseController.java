@@ -1,19 +1,13 @@
-package org.common.utils;
-
+package org.web.controller;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.common.component.RedisComponent;
 import org.common.constant.Constants;
-import org.common.entity.dto.TokenUserInfoDTO;
-import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-public class BaseUtils {
-
-
+public class ABaseController {
     public static String getIpAddr() {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String ip = request.getHeader("x-forwarded-for");
@@ -64,17 +58,4 @@ public class BaseUtils {
             }
         }
     }
-
-//    public static TokenUserInfoDTO getTokenUserInfo() {
-//        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-//        HttpServletRequest request = attributes.getRequest();
-//
-//        String token = request.getHeader(Constants.TOKEN_WEB);
-////        if (token == null) {
-////            return null;
-////        }
-//        //redisUtil中get方法如果找不到值，会返回为null
-//
-//        return redisComponent.getTokenUserInfo(token);
-//    }
 }
