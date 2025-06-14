@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
 @ComponentScan({"org.common.**","org.admin.**"})
-@MapperScan({"org.common.**"})
+@MapperScan({"org.common.mappers"})//这里写**会报错,mapperScan不支持通配符**
 @EnableTransactionManagement
 @EnableScheduling
 public class EasyliveAdminRunApplication {

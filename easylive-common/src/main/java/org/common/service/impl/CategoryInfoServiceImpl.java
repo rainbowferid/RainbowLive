@@ -9,6 +9,7 @@ import org.common.entity.po.CategoryInfo;
 import org.common.entity.query.CategoryInfoQuery;
 import org.common.entity.query.SimplePage;
 import org.common.entity.vo.PaginationResultVO;
+import org.common.exception.BussinessException;
 import org.common.mappers.CategoryInfoMapper;
 import org.common.service.CategoryInfoService;
 import org.common.utils.StringTools;
@@ -151,5 +152,22 @@ public class CategoryInfoServiceImpl implements CategoryInfoService {
 	@Override
 	public Integer deleteCategoryInfoByCategoryCode(String categoryCode) {
 		return this.categoryInfoMapper.deleteByCategoryCode(categoryCode);
+	}
+
+	@Override
+	public void saveCategory(CategoryInfo bean) {
+		CategoryInfo dbBean = categoryInfoMapper.selectByCategoryCode(bean.getCategoryCode());
+		if(dbBean!=null&&(bean.getCategoryId()==null||!dbBean.getCategoryId().equals(bean.getCategoryId()))
+		){
+			throw new BussinessException("分类编码已存在");
+		} else if (bean.getCategoryId()==null) {
+			Integer maxSort = this.categoryInfoMapper.selectMaxSort(bean.getpCategoryId());
+			bean.setSort(maxSort+1);
+			categoryInfoMapper.insert(bean);
+		}
+		else {
+			categoryInfoMapper.updateByCategoryId(bean,bean.getCategoryId());
+		}
+
 	}
 }

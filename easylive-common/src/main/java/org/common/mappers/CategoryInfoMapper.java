@@ -43,4 +43,5 @@ public interface CategoryInfoMapper<T,P> extends BaseMapper<T,P> {
 	 T selectByCategoryCode(@Param("categoryCode") String categoryCode);
 
 
+	Integer selectMaxSort(Integer pCategoryId);
 }

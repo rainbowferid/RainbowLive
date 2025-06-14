@@ -9,7 +9,6 @@ import java.io.Serializable;
  */
 public class CategoryInfo implements Serializable {
 
-
 	/**
 	 * 自增分类ID
 	 */

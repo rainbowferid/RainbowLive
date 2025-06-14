@@ -22,6 +22,7 @@ public class AppInterceptor implements HandlerInterceptor {
     RedisComponent redisComponent;
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+
         if (handler == null){
             return false;
         }
@@ -32,6 +33,9 @@ public class AppInterceptor implements HandlerInterceptor {
             return true;
         }
         String token = request.getHeader(Constants.TOKEN_ADMIN);
+
+        token = getTokenFromCookie(request);
+
         //获取图片
         if(request.getRequestURI().contains(URL_FILE)){
             token = getTokenFromCookie(request);
@@ -53,7 +57,7 @@ public class AppInterceptor implements HandlerInterceptor {
             return null;
         }
         for (Cookie cookie : cookies) {
-            if (cookie.getName().equals(Constants.TOKEN_WEB)) {
+            if (cookie.getName().equals(Constants.TOKEN_ADMIN)) {
                 return cookie.getValue();
             }
         }

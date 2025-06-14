@@ -364,5 +364,13 @@
 	<select id="selectByCategoryCode" resultMap="base_result_map" >
 		select <include refid="base_column_list" /> from category_info c where category_code=#{categoryCode}
 	</select>
+	<select id="selectMaxSort" resultType="java.lang.Integer">
+		select ifnull(max(sort),0) from category_info
+		<where>
+			<if test="pCategoryId != null">
+				p_category_id = #{pCategoryId}
+			</if>
+		</where>
+	</select>
 
 </mapper>

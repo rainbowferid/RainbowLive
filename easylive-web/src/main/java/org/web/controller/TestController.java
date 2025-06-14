@@ -10,6 +10,7 @@ import org.common.result.Result;
 import org.common.utils.RedisUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -25,8 +26,8 @@ public class TestController {
     RedisUtils  redisUtils;
 
     @RequestMapping("/mysql")
-    public List<UserInfo> testmysql() {
-        System.out.println(testMapper);
+    public List<UserInfo> testmysql(UserInfo userInfo) {
+        System.out.println(userInfo);
 
         return testMapper.getAllUserInfo();
     }

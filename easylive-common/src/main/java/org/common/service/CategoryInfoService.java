@@ -88,4 +88,5 @@ public interface CategoryInfoService {
 	 */
 	Integer deleteCategoryInfoByCategoryCode(String categoryCode);
 
+	void saveCategory(CategoryInfo categoryInfo);
 }
