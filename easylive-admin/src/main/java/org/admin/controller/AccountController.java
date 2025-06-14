@@ -49,7 +49,7 @@ public class AccountController extends ABaseController{
         return Result.success(map);
     }
 
-    @PostMapping("/login")
+    @RequestMapping("/login")
     public Result login(@NotEmpty @Size(max = 80) String account,
                         @NotEmpty String checkCodeKey,
                         @NotEmpty String checkCode,
@@ -75,31 +75,31 @@ public class AccountController extends ABaseController{
         finally {
             redisComponent.cleanCheckCode(checkCodeKey);
             Cookie[] cookies = request.getCookies();
-            for (Cookie cookie : cookies) {
-                if(cookie.getName().equals(Constants.TOKEN_ADMIN))
-                {
-                    redisComponent.cleanAdminToken(cookie.getValue());
-                    break;
+            if(cookies!=null){
+                for (Cookie cookie : cookies) {
+                    if(cookie.getName().equals(Constants.TOKEN_ADMIN))
+                    {
+                        redisComponent.cleanAdminToken(cookie.getValue());
+                        break;
+                    }
                 }
             }
+
         }
     }
 
     @RequestMapping("/logout")
     public Result logout(HttpServletRequest request,HttpServletResponse response)
     {
-        BaseUtils.cleanToken(response);
+        BaseUtils.cleanAdminToken(response);
 
         Cookie[] cookies = request.getCookies();
         for (Cookie cookie : cookies) {
-            if(cookie.getName().equals(Constants.TOKEN_WEB))
+            if(cookie.getName().equals(Constants.TOKEN_ADMIN))
             {
                 redisComponent.cleanToken(cookie.getValue());
             }
         }
         return Result.success();
     }
-
-
-
 }

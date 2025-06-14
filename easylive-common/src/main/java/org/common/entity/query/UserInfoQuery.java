@@ -1,20 +1,12 @@
-package org.common.entity.po;
+package org.common.entity.query;
 
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.common.entity.enums.DateTimePatternEnum;
-import org.common.utils.DateUtil;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import java.io.Serializable;
-
 
 /**
- * 用户信息
+ * 用户信息参数
  */
-public class UserInfo implements Serializable {
+public class UserInfoQuery extends BaseParam {
 
 
 	/**
@@ -22,20 +14,28 @@ public class UserInfo implements Serializable {
 	 */
 	private String userId;
 
+	private String userIdFuzzy;
+
 	/**
 	 * 用户名称
 	 */
 	private String nickName;
+
+	private String nickNameFuzzy;
 
 	/**
 	 * 邮箱
 	 */
 	private String email;
 
+	private String emailFuzzy;
+
 	/**
 	 * 用户密码
 	 */
 	private String password;
+
+	private String passwordFuzzy;
 
 	/**
 	 * 0：女，1：男，2：保密
@@ -47,31 +47,46 @@ public class UserInfo implements Serializable {
 	 */
 	private String birthday;
 
+	private String birthdayFuzzy;
+
 	/**
 	 * 学校
 	 */
 	private String school;
+
+	private String schoolFuzzy;
 
 	/**
 	 * 个人简介
 	 */
 	private String personIntroduction;
 
+	private String personIntroductionFuzzy;
+
 	/**
 	 * 用户注册时间
 	 */
+	private String joinTime;
 
-	private Date joinTime;
+	private String joinTimeStart;
+
+	private String joinTimeEnd;
 
 	/**
 	 * 最后登录时间
 	 */
-	private Date lastLoginTime;
+	private String lastLoginTime;
+
+	private String lastLoginTimeStart;
+
+	private String lastLoginTimeEnd;
 
 	/**
 	 * 最后登录ip
 	 */
 	private String lastLoginIp;
+
+	private String lastLoginIpFuzzy;
 
 	/**
 	 * 0:禁用,1启用
@@ -82,6 +97,8 @@ public class UserInfo implements Serializable {
 	 * 空间简介
 	 */
 	private String noticeInfo;
+
+	private String noticeInfoFuzzy;
 
 	/**
 	 * 硬币总数
@@ -107,12 +124,28 @@ public class UserInfo implements Serializable {
 		return this.userId;
 	}
 
+	public void setUserIdFuzzy(String userIdFuzzy){
+		this.userIdFuzzy = userIdFuzzy;
+	}
+
+	public String getUserIdFuzzy(){
+		return this.userIdFuzzy;
+	}
+
 	public void setNickName(String nickName){
 		this.nickName = nickName;
 	}
 
 	public String getNickName(){
 		return this.nickName;
+	}
+
+	public void setNickNameFuzzy(String nickNameFuzzy){
+		this.nickNameFuzzy = nickNameFuzzy;
+	}
+
+	public String getNickNameFuzzy(){
+		return this.nickNameFuzzy;
 	}
 
 	public void setEmail(String email){
@@ -123,12 +156,28 @@ public class UserInfo implements Serializable {
 		return this.email;
 	}
 
+	public void setEmailFuzzy(String emailFuzzy){
+		this.emailFuzzy = emailFuzzy;
+	}
+
+	public String getEmailFuzzy(){
+		return this.emailFuzzy;
+	}
+
 	public void setPassword(String password){
 		this.password = password;
 	}
 
 	public String getPassword(){
 		return this.password;
+	}
+
+	public void setPasswordFuzzy(String passwordFuzzy){
+		this.passwordFuzzy = passwordFuzzy;
+	}
+
+	public String getPasswordFuzzy(){
+		return this.passwordFuzzy;
 	}
 
 	public void setSex(Integer sex){
@@ -147,12 +196,28 @@ public class UserInfo implements Serializable {
 		return this.birthday;
 	}
 
+	public void setBirthdayFuzzy(String birthdayFuzzy){
+		this.birthdayFuzzy = birthdayFuzzy;
+	}
+
+	public String getBirthdayFuzzy(){
+		return this.birthdayFuzzy;
+	}
+
 	public void setSchool(String school){
 		this.school = school;
 	}
 
 	public String getSchool(){
 		return this.school;
+	}
+
+	public void setSchoolFuzzy(String schoolFuzzy){
+		this.schoolFuzzy = schoolFuzzy;
+	}
+
+	public String getSchoolFuzzy(){
+		return this.schoolFuzzy;
 	}
 
 	public void setPersonIntroduction(String personIntroduction){
@@ -163,20 +228,58 @@ public class UserInfo implements Serializable {
 		return this.personIntroduction;
 	}
 
-	public void setJoinTime(Date joinTime){
+	public void setPersonIntroductionFuzzy(String personIntroductionFuzzy){
+		this.personIntroductionFuzzy = personIntroductionFuzzy;
+	}
+
+	public String getPersonIntroductionFuzzy(){
+		return this.personIntroductionFuzzy;
+	}
+
+	public void setJoinTime(String joinTime){
 		this.joinTime = joinTime;
 	}
 
-	public Date getJoinTime(){
+	public String getJoinTime(){
 		return this.joinTime;
 	}
 
-	public void setLastLoginTime(Date lastLoginTime){
+	public void setJoinTimeStart(String joinTimeStart){
+		this.joinTimeStart = joinTimeStart;
+	}
+
+	public String getJoinTimeStart(){
+		return this.joinTimeStart;
+	}
+	public void setJoinTimeEnd(String joinTimeEnd){
+		this.joinTimeEnd = joinTimeEnd;
+	}
+
+	public String getJoinTimeEnd(){
+		return this.joinTimeEnd;
+	}
+
+	public void setLastLoginTime(String lastLoginTime){
 		this.lastLoginTime = lastLoginTime;
 	}
 
-	public Date getLastLoginTime(){
+	public String getLastLoginTime(){
 		return this.lastLoginTime;
+	}
+
+	public void setLastLoginTimeStart(String lastLoginTimeStart){
+		this.lastLoginTimeStart = lastLoginTimeStart;
+	}
+
+	public String getLastLoginTimeStart(){
+		return this.lastLoginTimeStart;
+	}
+	public void setLastLoginTimeEnd(String lastLoginTimeEnd){
+		this.lastLoginTimeEnd = lastLoginTimeEnd;
+	}
+
+	public String getLastLoginTimeEnd(){
+		return this.lastLoginTimeEnd;
 	}
 
 	public void setLastLoginIp(String lastLoginIp){
@@ -185,6 +288,14 @@ public class UserInfo implements Serializable {
 
 	public String getLastLoginIp(){
 		return this.lastLoginIp;
+	}
+
+	public void setLastLoginIpFuzzy(String lastLoginIpFuzzy){
+		this.lastLoginIpFuzzy = lastLoginIpFuzzy;
+	}
+
+	public String getLastLoginIpFuzzy(){
+		return this.lastLoginIpFuzzy;
 	}
 
 	public void setStatus(Integer status){
@@ -201,6 +312,14 @@ public class UserInfo implements Serializable {
 
 	public String getNoticeInfo(){
 		return this.noticeInfo;
+	}
+
+	public void setNoticeInfoFuzzy(String noticeInfoFuzzy){
+		this.noticeInfoFuzzy = noticeInfoFuzzy;
+	}
+
+	public String getNoticeInfoFuzzy(){
+		return this.noticeInfoFuzzy;
 	}
 
 	public void setTotalCoinCount(Integer totalCoinCount){
@@ -227,8 +346,4 @@ public class UserInfo implements Serializable {
 		return this.theme;
 	}
 
-	@Override
-	public String toString (){
-		return "用户id:"+(userId == null ? "空" : userId)+"，用户名称:"+(nickName == null ? "空" : nickName)+"，邮箱:"+(email == null ? "空" : email)+"，用户密码:"+(password == null ? "空" : password)+"，0：女，1：男，2：保密:"+(sex == null ? "空" : sex)+"，生日日期:"+(birthday == null ? "空" : birthday)+"，学校:"+(school == null ? "空" : school)+"，个人简介:"+(personIntroduction == null ? "空" : personIntroduction)+"，用户注册时间:"+(joinTime == null ? "空" : DateUtil.format(joinTime, DateTimePatternEnum.YYYY_MM_DD_HH_MM_SS.getPattern()))+"，最后登录时间:"+(lastLoginTime == null ? "空" : DateUtil.format(lastLoginTime, DateTimePatternEnum.YYYY_MM_DD_HH_MM_SS.getPattern()))+"，最后登录ip:"+(lastLoginIp == null ? "空" : lastLoginIp)+"，0:禁用,1启用:"+(status == null ? "空" : status)+"，空间简介:"+(noticeInfo == null ? "空" : noticeInfo)+"，硬币总数:"+(totalCoinCount == null ? "空" : totalCoinCount)+"，当前硬币数目:"+(currentCoinCount == null ? "空" : currentCoinCount)+"，主题:"+(theme == null ? "空" : theme);
-	}
 }

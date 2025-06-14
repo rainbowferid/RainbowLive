@@ -65,6 +65,19 @@ public class BaseUtils {
         }
     }
 
+    public static void cleanAdminToken(HttpServletResponse response) {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        Cookie[] cookies = request.getCookies();
+        for (Cookie cookie : cookies) {
+            if(cookie.getName().equals(Constants.TOKEN_ADMIN))
+            {
+                cookie.setMaxAge(0);
+                response.addCookie(cookie);
+                break;
+            }
+        }
+    }
+
 //    public static TokenUserInfoDTO getTokenUserInfo() {
 //        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
 //        HttpServletRequest request = attributes.getRequest();

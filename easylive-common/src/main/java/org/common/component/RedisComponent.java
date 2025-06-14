@@ -59,11 +59,16 @@ public class RedisComponent {
     public String saveToken4Admin(String account) {
 
         String token = UUID.randomUUID().toString();
-        redisUtils.setex(Constants.REDIS_KEY_TOKEN_ADMIN + token, account, Constants.REDIS_EXPIRE_TIME_DAY*7);
+        redisUtils.setex(Constants.REDIS_KEY_TOKEN_ADMIN + token, account, Constants.REDIS_EXPIRE_TIME_DAY);
         return token;
     }
 
     public void cleanAdminToken(String token) {
         redisUtils.delete(Constants.REDIS_KEY_TOKEN_ADMIN + token);
+    }
+
+    public String getAdminTokenInfo(String token) {
+
+        return  (String) redisUtils.get(Constants.REDIS_KEY_TOKEN_ADMIN + token);
     }
 }

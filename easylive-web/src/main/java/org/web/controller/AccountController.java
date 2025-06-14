@@ -13,6 +13,7 @@ import org.common.constant.Constants;
 import org.common.entity.dto.TokenUserInfoDTO;
 import org.common.exception.RegisterFailedException;
 import org.common.result.Result;
+import org.common.service.UserInfoService;
 import org.common.utils.BaseUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.web.service.UserInfoService;
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -70,7 +71,7 @@ public class AccountController extends ABaseController{
 
     }
 
-    @PostMapping("/login")
+    @RequestMapping("/login")
     public Result login(@NotEmpty @Email @Size(max = 80) String email,
                         @NotEmpty String checkCodeKey,
                         @NotEmpty String checkCode,
@@ -95,13 +96,17 @@ public class AccountController extends ABaseController{
         finally {
             redisComponent.cleanCheckCode(checkCodeKey);
             Cookie[] cookies = request.getCookies();
-            for (Cookie cookie : cookies) {
-                if(cookie.getName().equals(Constants.TOKEN_WEB))
-                {
-                    redisComponent.cleanToken(cookie.getValue());
-                    break;
+            if(cookies != null)
+            {
+                for (Cookie cookie : cookies) {
+                    if(cookie.getName().equals(Constants.TOKEN_WEB))
+                    {
+                        redisComponent.cleanToken(cookie.getValue());
+                        break;
+                    }
                 }
             }
+
         }
 
     }

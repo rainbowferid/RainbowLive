@@ -41,7 +41,7 @@ public class ABaseController {
 
     public static void saveTokenToCookie(String token, HttpServletResponse response) {
         Cookie cookie = new Cookie(Constants.TOKEN_ADMIN, token);
-        cookie.setMaxAge(Constants.TIME_DAY);
+        cookie.setMaxAge(Constants.TIME_DAY*7);//-1表示时间为一次会话，浏览器关闭即失效
         cookie.setPath("/");
         response.addCookie(cookie);
 

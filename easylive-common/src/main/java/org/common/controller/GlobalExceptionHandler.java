@@ -1,12 +1,11 @@
-package org.web.controller;
+package org.common.controller;
 
 import jakarta.validation.ConstraintViolationException;
-import org.common.enums.ResponseCodeEnum;
+import org.common.entity.enums.ResponseCodeEnum;
 import org.common.exception.BaseException;
 import org.common.result.Result;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.NoHandlerFoundException;

@@ -1,4 +1,6 @@
-package org.common.enums;
+package org.common.entity.enums;
+
+import lombok.Data;
 
 public enum ResponseCodeEnum {
 
@@ -20,21 +22,25 @@ public enum ResponseCodeEnum {
     CODE_416(416,"请求范围错误"),
     CODE_500(500,"服务器内部错误"),
     CODE_600(600,"参数类型错误"),
-    CODE_601(601,"主键冲突");
+    CODE_601(601,"主键冲突"),
+    CODE_901(901,"未登录或登录超时" );
 
     private Integer code;
-    private String desc;
 
-    ResponseCodeEnum (Integer code,String desc){
+    private String msg;
+
+    ResponseCodeEnum(Integer code, String msg) {
         this.code = code;
-        this.desc = desc;
+        this.msg = msg;
     }
 
     public Integer getCode() {
         return code;
     }
-    public String getDesc() {
-        return desc;
+
+    public String getMsg() {
+        return msg;
     }
+
 
 }

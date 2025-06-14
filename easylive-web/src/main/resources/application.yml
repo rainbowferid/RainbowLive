@@ -15,15 +15,15 @@ spring:
       database: 0
       timeout: 2000
 mybatis:
-  mapper-locations: classpath:mapper/*.xml
   configuration:
     map-underscore-to-camel-case: true
+  mapper-locations: classpath:mappers/*.xml
 
 openProject:
   isOpen: true
   cmd: cmd   /c   start
   web:
-    openUrl: http://localhost:${server.port}/#
+    openUrl: http://localhost:${server.port}/
 
 project:
   folder: c:/computer science/live_info/

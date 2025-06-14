@@ -1,4 +1,4 @@
-package org.common.enums;
+package org.common.entity.enums;
 
 public enum UserSexEnum {
     MALE(1,"男"),
